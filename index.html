@@ -3,155 +3,697 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050207">
-<title>Para Fernanda ❤️</title>
+<meta name="theme-color" content="#10030c">
+<title>Fernanda | Mi universo ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
+:root{
+  --wine:#39091f;
+  --red:#b51d49;
+  --pink:#ff7899;
+  --gold:#f7d9a0;
+  --cream:#fff0e9;
+}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
- margin:0;background:#050207;color:white;
- font-family:Georgia,serif;overflow-x:hidden;
+  margin:0;min-height:100vh;overflow-x:hidden;
+  background:#10030c;color:var(--cream);
+  font-family:Montserrat,sans-serif;
 }
-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0}
-main{
- position:relative;z-index:1;min-height:100svh;
- display:flex;align-items:center;justify-content:center;
- padding:25px 16px;text-align:center;
+button{font-family:inherit}
+canvas{
+  position:fixed;inset:0;width:100%;height:100%;
+  pointer-events:none;
 }
-.content{width:100%;max-width:480px}
-.small{color:#ff879d;letter-spacing:5px;font:11px Arial}
-h1{font-size:clamp(35px,10vw,55px);font-weight:normal;
- color:#ff526e;text-shadow:0 0 25px #d00036;margin:18px 0}
-p{color:#e9cbd3;line-height:1.7}
-.flower{
- width:230px;height:230px;max-width:80vw;
- margin:12px auto 25px;filter:drop-shadow(0 0 15px #ff003f);
+#universe{z-index:0}
+#particles{z-index:4}
+.vignette{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 10%,#10030c55 65%,#080108 100%);
 }
-button{
- background:linear-gradient(135deg,#a90034,#390018);
- border:1px solid #ff6584;color:white;border-radius:30px;
- padding:15px 25px;font-size:15px;cursor:pointer;
- box-shadow:0 0 25px #90002d66;
+.grain{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
-button:active{transform:scale(.97)}
+.fx{position:fixed;inset:0;z-index:3;overflow:hidden;pointer-events:none}
+.top-label{
+  position:fixed;top:19px;left:0;width:100%;z-index:7;
+  text-align:center;font-size:9px;letter-spacing:4px;
+  color:#e7b7c1;pointer-events:none;
+}
+.bottom-label{
+  position:fixed;bottom:15px;left:15px;z-index:7;
+  color:#d4a0ae;font-size:8px;letter-spacing:2px;
+  pointer-events:none;
+}
+.screen{
+  position:fixed;inset:0;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;text-align:center;
+}
+.intro{transition:opacity 1.2s,transform 1.2s}
+.intro.hide{opacity:0;transform:scale(1.12);pointer-events:none}
+.intro-inner{max-width:750px}
+.eyebrow{
+  font-size:9px;letter-spacing:5px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:25px;
+}
+h1{
+  font:400 clamp(65px,13vw,125px)/.82 'Cormorant Garamond',serif;
+  margin:0;text-shadow:0 0 35px #ff4d8066,0 0 100px #c51c5566;
+}
+h1 span{
+  display:block;color:#ff829e;font-style:italic;
+  margin-top:15px;
+}
+.intro-text{
+  font:300 clamp(21px,4vw,30px)/1.45 'Cormorant Garamond',serif;
+  color:#f3d3d8;margin:30px auto;
+}
+.number{
+  color:var(--gold);font-size:11px;letter-spacing:5px;
+  margin:25px auto;
+}
+.primary{
+  border:1px solid #ffc0ca99;border-radius:50px;
+  padding:16px 29px;color:white;cursor:pointer;
+  background:linear-gradient(110deg,#70132f,#c12c58);
+  font-size:10px;letter-spacing:2px;
+  box-shadow:0 0 30px #f0446655;
+  transition:.35s;
+}
+.primary:hover{transform:translateY(-4px);box-shadow:0 0 45px #ff557c99}
+.hint{font-size:8px;letter-spacing:3px;color:#c58d9e;margin-top:18px}
+.music{
+  position:fixed;right:17px;bottom:17px;z-index:12;
+  width:47px;height:47px;border-radius:50%;
+  color:white;background:#711b3bdb;border:1px solid #ffc0ca99;
+  cursor:pointer;font-size:19px;backdrop-filter:blur(10px);
+}
+.music.playing{animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 28px #ff4d80}}
+/* CARTA */
+.letter-wrap{
+  position:fixed;inset:0;z-index:8;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;pointer-events:none;
+}
 .letter{
- display:none;margin:25px auto 0;padding:24px 20px;
- border:1px solid #a92c50;border-radius:18px;
- background:#160711eF;box-shadow:0 0 30px #87002555;
- animation:show 1s ease;
+  width:min(540px,100%);max-height:85vh;overflow-y:auto;
+  background:linear-gradient(145deg,#fff5ec,#f2d9d7);
+  color:#64263b;padding:35px 31px;
+  border:1px solid #fff;border-radius:5px;
+  box-shadow:0 20px 100px #fa416655;
+  opacity:0;transform:translateY(45px) scale(.94);
+  transition:1s;pointer-events:none;
+  scrollbar-width:thin;scrollbar-color:#c27b91 transparent;
 }
-.letter.show{display:block}
-.letter h2{color:#ff829b;font-weight:normal}
-.letter p{font-size:17px}
-.music{display:inline-block;margin-top:12px;color:#ff9caf}
-@keyframes show{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.letter.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.letter-top{
+  text-align:center;font-size:9px;letter-spacing:4px;
+  color:#a44d69;
+}
+.letter h2{
+  text-align:center;font:500 48px 'Cormorant Garamond',serif;
+  color:#841b40;margin:16px 0;
+}
+.letter .intro-letter{
+  text-align:center;font:italic 22px 'Cormorant Garamond',serif;
+  color:#9e3658;margin:0 0 20px;
+}
+.letter p{
+  font:400 19px/1.6 'Cormorant Garamond',serif;
+  margin:0 0 16px;
+}
+.letter .typed{min-height:80px}
+.letter .highlight{
+  color:#9a2850;font-style:italic;
+  text-align:center;font-size:23px;
+}
+.divider{
+  text-align:center;color:#ba5674;
+  letter-spacing:8px;margin:20px 0;
+}
+.signature{
+  text-align:center;font:italic 39px 'Cormorant Garamond',serif;
+  color:#a42b50;margin:24px 0 10px;
+}
+.signature small{
+  display:block;font:9px Montserrat,sans-serif;
+  letter-spacing:3px;color:#9d6876;margin-bottom:8px;
+}
+.counter{
+  margin:22px 0;padding:17px 5px;
+  border-top:1px solid #a75d7144;
+  border-bottom:1px solid #a75d7144;
+  text-align:center;
+}
+.counter-title{font-size:9px;letter-spacing:2px;color:#9c566b;margin-bottom:12px}
+.counter-values{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.counter-values strong{
+  display:block;font:500 27px 'Cormorant Garamond',serif;color:#842345;
+}
+.counter-values span{font-size:8px;letter-spacing:1px;color:#9c6474}
+.actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.secondary{
+  border:0;border-radius:30px;padding:12px 17px;
+  color:white;background:#862443;font-size:9px;
+  letter-spacing:1px;cursor:pointer;
+}
+.surprise{
+  display:none;text-align:center;margin-top:18px;padding:18px;
+  background:#f8e2df;border:1px solid #d89aa7;
+  font:italic 22px/1.5 'Cormorant Garamond',serif;color:#8d2447;
+}
+.surprise.show{display:block;animation:appear .8s}
+@keyframes appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* EFECTOS */
+.firefly{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:#ffe6a8;box-shadow:0 0 9px 3px #ffcf76;
+  animation:fly var(--duration) ease-in-out infinite alternate;
+}
+@keyframes fly{
+  from{transform:translate(0,0) scale(.5);opacity:.2}
+  to{transform:translate(var(--dx),var(--dy)) scale(1.6);opacity:1}
+}
+.butterfly{
+  position:absolute;font-size:25px;
+  filter:drop-shadow(0 0 12px #ff91bb);
+  animation:butterfly var(--duration) ease-in-out infinite;
+}
+@keyframes butterfly{
+  0%{transform:translate(0,0) rotate(-15deg)}
+  30%{transform:translate(65px,-40px) rotate(15deg)}
+  60%{transform:translate(100px,20px) rotate(-12deg)}
+  100%{transform:translate(0,0) rotate(-15deg)}
+}
+.floating{
+  position:absolute;bottom:-40px;
+  animation:rise var(--duration) linear forwards;
+}
+@keyframes rise{
+  0%{transform:translateY(0) rotate(0) scale(.6);opacity:0}
+  15%{opacity:.9}
+  100%{transform:translateY(-110vh) rotate(50deg) scale(1.5);opacity:0}
+}
+.falling{
+  position:absolute;top:-50px;
+  animation:fall var(--duration) linear forwards;
+}
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0);opacity:0}
+  10%{opacity:.9}
+  100%{transform:translateY(110vh) rotate(480deg);opacity:0}
+}
+.tap-heart{
+  position:fixed;z-index:15;pointer-events:none;
+  animation:burst 1.3s ease-out forwards;
+}
+@keyframes burst{
+  0%{transform:translate(0,0) scale(.4);opacity:1}
+  100%{transform:translate(var(--x),var(--y)) scale(1.7);opacity:0}
+}
+.glow{
+  position:fixed;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,#ff527822,transparent 70%);
+  pointer-events:none;animation:glow 5s ease-in-out infinite alternate;
+}
+@keyframes glow{to{transform:scale(1.5);opacity:.3}}
+@media(max-width:520px){
+  .letter{padding:26px 20px;max-height:82vh}
+  .letter h2{font-size:41px}
+  .letter p{font-size:18px}
+  .letter .intro-letter{font-size:20px}
+  .counter-values{gap:13px}
+  .bottom-label{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:20s!important}
+}
 </style>
 </head>
+
 <body>
-<canvas id="sky"></canvas>
-<main>
-<div class="content">
- <div class="small">UN UNIVERSO PARA TI</div>
- <h1>Fernanda ❤️</h1>
- <p>Entre millones de estrellas, tú eres mi favorita.</p>
+<canvas id="universe"></canvas>
+<canvas id="particles"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="fx" id="fx"></div>
+<div class="glow" style="top:10%;left:5%"></div>
+<div class="glow" style="right:0;bottom:10%"></div>
 
- <canvas id="flower" class="flower" width="500" height="500"></canvas>
+<div class="top-label">✦ UN UNIVERSO HECHO PARA TI ✦</div>
 
- <button id="open">✉ Abrir mi sorpresa</button>
+<section class="screen intro" id="intro">
+  <div class="intro-inner">
+    <div class="eyebrow">Una historia escrita entre estrellas</div>
+    <h1>Para <span>Fernanda</span></h1>
+    <div class="intro-text">
+      De todos los lugares del universo,<br>
+      mi favorito siempre será donde estés tú.
+    </div>
+    <div class="number">✦ NÚMERO 6 · MI CASUALIDAD FAVORITA ✦</div>
+    <button class="primary" id="begin">ABRIR MI REGALO ♥</button>
+    <div class="hint">TOCA PARA DESCUBRIR TU SORPRESA</div>
+  </div>
+</section>
 
- <section class="letter" id="letter">
-  <h2>Para mi amor ❤️</h2>
+<div class="letter-wrap">
+<article class="letter" id="letter">
+  <div class="letter-top">✦ UNA CARTA DESDE MI CORAZÓN ✦</div>
+  <h2>Mi amor…</h2>
+  <div class="intro-letter">Para mi paz, mi luz y mi lugar favorito. ❤️</div>
+
+  <p id="typed" class="typed"></p>
+
   <p>
-   Mi amor, Fernanda...
-   <br><br>
-   Si pudiera recorrer todo el universo,
-   volvería a elegirte a ti en cada estrella,
-   en cada galaxia y en cada vida.
-   <br><br>
-   Llegaste a mi mundo para hacerlo más bonito.
-   Gracias por cada sonrisa, cada momento
-   y por ser esa persona tan especial.
-   <br><br>
-   No necesito tener el universo entero,
-   porque teniéndote a ti tengo mi mundo.
-   <br><br>
-   Te quiero muchísimo, mi amor. ❤️
+    Quiero que sepas que eres muchísimo más de lo que a veces
+    puedo expresar con palabras. Eres mi paz cuando todo parece
+    ir demasiado rápido, mi luz cuando el día se pone oscuro
+    y esa personita que puede cambiar mi ánimo con una sola sonrisa.
   </p>
-  <p style="color:#ff819a">Siempre tú. 🌹</p>
-  <a class="music" target="_blank"
-  href="https://www.youtube.com/results?search_query=Rio+Roma+Tu+me+cambiaste+la+vida+oficial">
-  🎵 Escuchar nuestra canción – Río Roma
-  </a>
- </section>
+
+  <p>
+    Me encantan tus ojos. No sé cómo explicarlo, pero podría
+    quedarme mirándolos y perderme en ellos sin cansarme.
+    Tienen algo que me transmite una tranquilidad que no encuentro
+    en ningún otro lugar.
+  </p>
+
+  <p>
+    Y tu cabello ondulado… me encanta. Es uno de esos detalles
+    tuyos que hacen que te vea y piense una vez más lo preciosa
+    que eres. Me gustan tus gestos, tu forma de ser, tu sonrisa
+    y hasta esas pequeñas cosas que quizá tú ni notas.
+  </p>
+
+  <p class="highlight">
+    Eres mi calma en medio del ruido,<br>
+    mi estrella en medio de la noche.
+  </p>
+
+  <div class="divider">♡ ✦ ♡</div>
+
+  <p>
+    No quiero que pienses que tienes que ser perfecta para mí.
+    Me encantas siendo tú, con tus días buenos, tus días difíciles,
+    tus ocurrencias y tu manera tan especial de existir.
+  </p>
+
+  <p>
+    Si pudiera pedirle algo al universo, no pediría una vida
+    perfecta. Pediría muchos momentos más contigo, más risas,
+    más abrazos, más miradas y más recuerdos que podamos guardar
+    en el corazón.
+  </p>
+
+  <p>
+    Gracias por ser mi paz, mi luz y una de las partes más bonitas
+    de mi mundo. Si tuviera que elegir de nuevo, volvería a elegirte.
+    Hoy, mañana y en cada universo posible.
+  </p>
+
+  <div class="divider">✧ 🌹 ✧</div>
+
+  <p class="highlight">
+    Y si alguna vez dudas de lo especial que eres,<br>
+    vuelve aquí y recuerda cuánto te quiero.
+  </p>
+
+  <div class="counter">
+    <div class="counter-title">✦ EL TIEMPO DE NUESTRA HISTORIA ✦</div>
+    <div class="counter-values" id="counter">
+      <div><strong>∞</strong><span>INFINITO</span></div>
+    </div>
+  </div>
+
+  <div class="signature">
+    <small>CON TODO MI AMOR</small>
+    Lyan ❤️
+  </div>
+
+  <div class="actions">
+    <button class="secondary" id="secretButton">UNA ÚLTIMA SORPRESA ✨</button>
+    <button class="secondary" id="back">VOLVER AL UNIVERSO</button>
+  </div>
+
+  <div class="surprise" id="surprise">
+    Fernanda, entre millones de personas, mi corazón encontró
+    una razón para sonreír cuando te conoció.
+    <br><br>
+    Eres mi paz, mi luz, mi niña bonita y mi lugar favorito.
+    <br><br>
+    No olvides nunca lo muchísimo que vales. ❤️
+    <br><br>
+    <span style="font-size:15px;letter-spacing:3px">#6 · POR SIEMPRE ESPECIAL</span>
+  </div>
+</article>
 </div>
-</main>
+
+<div class="bottom-label">HECHO CON AMOR · PARA FERNANDA</div>
+<button class="music" id="music" aria-label="Música">♫</button>
+
+<audio id="song" loop preload="auto">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// GALAXIA Y ESTRELLAS
-const sky=document.getElementById('sky');
-const s=sky.getContext('2d');
-let stars=[];
+/* PERSONALIZA LA FECHA:
+   Sustituye AAAA-MM-DD por vuestra fecha especial.
+   Ejemplo: 2024-06-15
+*/
+const fechaInicio = "AAAA-MM-DD";
+
+/* GALAXIA */
+const canvas=document.getElementById("universe");
+const ctx=canvas.getContext("2d");
+const particleCanvas=document.getElementById("particles");
+const pctx=particleCanvas.getContext("2d");
+let w=innerWidth,h=innerHeight,dpr=1,t=0;
+let stars=[],petals=[],shooting=[];
+let nameParticles=[];
+let nameAnimation=false;
+let nameStart=0;
+
+function rand(a,b){return Math.random()*(b-a)+a}
+
 function resize(){
- sky.width=innerWidth*devicePixelRatio;
- sky.height=innerHeight*devicePixelRatio;
- stars=Array.from({length:180},()=>({
- x:Math.random()*sky.width,y:Math.random()*sky.height,
- r:Math.random()*1.7+.3,a:Math.random()*6
- }));
+  dpr=Math.min(devicePixelRatio||1,2);
+  w=innerWidth;h=innerHeight;
+  [canvas,particleCanvas].forEach(c=>{
+    c.width=w*dpr;c.height=h*dpr;
+    c.style.width=w+"px";c.style.height=h+"px";
+    c.getContext("2d").setTransform(dpr,0,0,dpr,0,0);
+  });
+  stars=Array.from({length:Math.min(420,Math.floor(w*h/1900))},()=>({
+    x:rand(0,w),y:rand(0,h),r:rand(.3,1.7),
+    phase:rand(0,6.28),speed:rand(.2,1.4)
+  }));
 }
-resize();addEventListener('resize',resize);
-function galaxy(){
- s.clearRect(0,0,sky.width,sky.height);
- let g=s.createRadialGradient(
- sky.width*.5,sky.height*.5,0,
- sky.width*.5,sky.height*.5,sky.width*.65);
- g.addColorStop(0,'#260817');
- g.addColorStop(.45,'#100614');
- g.addColorStop(1,'#050207');
- s.fillStyle=g;s.fillRect(0,0,sky.width,sky.height);
- stars.forEach(p=>{
- p.a+=.025;
- s.globalAlpha=.25+Math.abs(Math.sin(p.a))*.7;
- s.fillStyle='#ffe5ec';
- s.beginPath();s.arc(p.x,p.y,p.r*devicePixelRatio,0,Math.PI*2);s.fill();
- });
- s.globalAlpha=1;
- requestAnimationFrame(galaxy);
+function newPetal(initial=false){
+  return {
+    x:rand(-20,w+20),y:initial?rand(0,h):-20,
+    size:rand(4,10),speed:rand(.35,1.3),
+    sway:rand(.5,1.8),angle:rand(0,6.28),
+    turn:rand(-.025,.025),
+    color:["#e83d62","#a51e48","#ff91a1","#d84a6e"][Math.floor(rand(0,4))]
+  };
 }
-galaxy();
+function background(){
+  const g=ctx.createRadialGradient(w*.5,h*.45,0,w*.5,h*.45,Math.max(w,h)*.8);
+  g.addColorStop(0,"#4c1028");
+  g.addColorStop(.42,"#250b1b");
+  g.addColorStop(1,"#09030d");
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
 
-// FLOR ROJA FORMADA POR PARTÍCULAS
-const flower=document.getElementById('flower');
-const f=flower.getContext('2d');
-let particles=[];
-for(let i=0;i<1300;i++){
- let a=Math.random()*Math.PI*2;
- let petal=Math.floor(Math.random()*6);
- let angle=a+petal*Math.PI/3;
- let r=35+Math.random()*105;
- let x=250+Math.cos(angle)*r*Math.cos(a);
- let y=230+Math.sin(angle)*r*.85;
- particles.push({x,y,phase:Math.random()*6});
+  ctx.save();ctx.globalCompositeOperation="screen";
+  for(let i=0;i<8;i++){
+    const x=w*(.1+i*.12)+Math.sin(t*.2+i)*35;
+    const y=h*(.18+(i%4)*.2);
+    const r=Math.min(w,h)*.25;
+    const n=ctx.createRadialGradient(x,y,0,x,y,r);
+    n.addColorStop(0,"rgba(175,35,80,.13)");
+    n.addColorStop(1,"rgba(175,35,80,0)");
+    ctx.fillStyle=n;ctx.fillRect(x-r,y-r,r*2,r*2);
+  }
+  ctx.restore();
 }
-function drawFlower(t){
- f.clearRect(0,0,500,500);
- particles.forEach((p,i)=>{
- let pulse=Math.sin(t*.0015+p.phase)*2;
- f.globalAlpha=.45+Math.abs(Math.sin(t*.002+p.phase))*.55;
- f.fillStyle=i%5===0?'#ffbdc9':(i%3===0?'#ff164e':'#bd0036');
- f.shadowBlur=10;f.shadowColor='#ff003f';
- f.beginPath();
- f.arc(p.x+pulse,p.y+pulse,1.1+(i%4)*.45,0,Math.PI*2);
- f.fill();
- });
- f.globalAlpha=1;f.shadowBlur=0;
- requestAnimationFrame(drawFlower);
+function drawStars(){
+  for(const s of stars){
+    const a=.2+.8*(.5+.5*Math.sin(t*s.speed+s.phase));
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,225,221,${a})`;ctx.fill();
+  }
 }
-requestAnimationFrame(drawFlower);
+function shootingStar(){
+  if(Math.random()<.009){
+    shooting.push({x:rand(0,w),y:rand(0,h*.5),vx:rand(5,9),vy:rand(2,4),life:60});
+  }
+  shooting=shooting.filter(s=>s.life>0);
+  shooting.forEach(s=>{
+    ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-s.vx*5,s.y-s.vy*5);
+    ctx.strokeStyle=`rgba(255,220,190,${s.life/60})`;
+    ctx.lineWidth=1.5;ctx.stroke();
+    s.x+=s.vx;s.y+=s.vy;s.life--;
+  });
+}
+function rose(x,y,size){
+  ctx.save();ctx.translate(x,y);
+  const colors=["#a80f3d","#d92854","#f35d7d","#ff91a1","#78102e"];
+  for(let i=0;i<12;i++){
+    ctx.save();ctx.rotate(i*Math.PI*2/12);
+    ctx.beginPath();
+    ctx.ellipse(0,-size*.37,size*.25,size*.47,0,0,Math.PI*2);
+    ctx.fillStyle=colors[i%colors.length];ctx.fill();
+    ctx.restore();
+  }
+  ctx.beginPath();ctx.arc(0,0,size*.18,0,Math.PI*2);
+  ctx.fillStyle="#ffd18b";ctx.fill();
+  ctx.restore();
+}
+function heart(x,y,size){
+  ctx.save();ctx.translate(x,y);
+  ctx.shadowBlur=35;ctx.shadowColor="#ff315e";
+  ctx.fillStyle="#e93460";
+  ctx.beginPath();
+  ctx.moveTo(0,size*.6);
+  ctx.bezierCurveTo(-size*1.6,-size*.3,-size*.9,-size*1.2,0,-size*.5);
+  ctx.bezierCurveTo(size*.9,-size*1.2,size*1.6,-size*.3,0,size*.6);
+  ctx.fill();ctx.restore();
+}
+function drawPetals(){
+  petals.forEach(p=>{
+    p.y+=p.speed;p.x+=Math.sin(t+p.angle)*p.sway*.45;p.angle+=p.turn;
+    if(p.y>h+20)Object.assign(p,newPetal());
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle);
+    ctx.globalAlpha=.7;ctx.fillStyle=p.color;
+    ctx.beginPath();ctx.ellipse(0,0,p.size*.55,p.size,0,0,Math.PI*2);
+    ctx.fill();ctx.restore();
+  });
+}
+function animate(){
+  t+=.016;
+  background();drawStars();shootingStar();
+  const size=Math.min(w,h)*.105*(1+Math.sin(t*1.5)*.045);
+  rose(w/2,h*.48,size);
+  heart(w/2,h*.48,size*.9);
+  drawPetals();
+  requestAnimationFrame(animate);
+}
+resize();
+petals=Array.from({length:55},()=>newPetal(true));
+window.addEventListener("resize",resize);
+animate();
 
-// ABRIR LA CARTA
-document.getElementById('open').addEventListener('click',()=>{
- document.getElementById('letter').classList.add('show');
- document.getElementById('open').textContent='❤️ Mi amor, para ti ❤️';
- document.getElementById('letter').scrollIntoView({behavior:'smooth',block:'center'});
+/* EFECTO ESPECIAL: FERNANDA EN PARTÍCULAS DORADAS */
+function createNameEffect(){
+  const off=document.createElement("canvas");
+  const ow=Math.min(w*.9,650);
+  const oh=130;
+  off.width=ow;off.height=oh;
+  const octx=off.getContext("2d");
+  octx.fillStyle="white";
+  octx.textAlign="center";
+  octx.textBaseline="middle";
+  octx.font=`bold ${Math.min(ow/8,76)}px Georgia`;
+  octx.fillText("FERNANDA",ow/2,oh/2);
+
+  const data=octx.getImageData(0,0,ow,oh).data;
+  const targets=[];
+  for(let y=0;y<oh;y+=4){
+    for(let x=0;x<ow;x+=4){
+      if(data[(y*ow+x)*4+3]>100){
+        targets.push({
+          x:w/2-ow/2+x,
+          y:h*.48-oh/2+y
+        });
+      }
+    }
+  }
+  nameParticles=targets.map(target=>({
+    x:w/2+rand(-20,20),
+    y:h*.48+rand(-20,20),
+    tx:target.x,ty:target.y,
+    size:rand(1,2.8),
+    delay:rand(0,700),
+    color:Math.random()>.5?"#ffe5a5":"#ff8da9"
+  }));
+  nameStart=performance.now();
+  nameAnimation=true;
+  requestAnimationFrame(drawNameEffect);
+}
+function drawNameEffect(now){
+  if(!nameAnimation)return;
+  pctx.clearRect(0,0,w,h);
+  const elapsed=now-nameStart;
+  const progress=Math.min(1,Math.max(0,(elapsed-400)/1700));
+  nameParticles.forEach(p=>{
+    const delay=p.delay;
+    const local=Math.max(0,Math.min(1,(elapsed-400-delay)/1400));
+    const ease=1-Math.pow(1-local,3);
+    const x=p.x+(p.tx-p.x)*ease;
+    const y=p.y+(p.ty-p.y)*ease;
+    pctx.beginPath();
+    pctx.arc(x,y,p.size,0,Math.PI*2);
+    pctx.fillStyle=p.color;
+    pctx.shadowBlur=10;pctx.shadowColor=p.color;
+    pctx.fill();
+  });
+  pctx.shadowBlur=0;
+  if(progress>=1){
+    pctx.textAlign="center";
+    pctx.font="italic 16px Georgia";
+    pctx.fillStyle="#ffe3b4";
+    pctx.fillText("mi estrella favorita ✦",w/2,h*.48+85);
+  }
+  if(elapsed<6500){
+    requestAnimationFrame(drawNameEffect);
+  }else{
+    nameAnimation=false;
+    pctx.clearRect(0,0,w,h);
+  }
+}
+
+/* CONTADOR */
+function updateCounter(){
+  const box=document.getElementById("counter");
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(fechaInicio)){
+    box.innerHTML='<div><strong>∞</strong><span>INFINITO</span></div>';
+    return;
+  }
+  const start=new Date(fechaInicio+"T00:00:00");
+  if(isNaN(start.getTime())||start>Date.now()){
+    box.innerHTML='<div><strong>∞</strong><span>INFINITO</span></div>';
+    return;
+  }
+  const days=Math.floor((Date.now()-start.getTime())/86400000);
+  const years=Math.floor(days/365.2425);
+  const months=Math.floor((days-years*365.2425)/30.44);
+  const remaining=days-Math.floor(years*365.2425)-Math.floor(months*30.44);
+  box.innerHTML=`
+    <div><strong>${years}</strong><span>AÑOS</span></div>
+    <div><strong>${months}</strong><span>MESES</span></div>
+    <div><strong>${remaining}</strong><span>DÍAS</span></div>`;
+}
+updateCounter();
+setInterval(updateCounter,60000);
+
+/* CARTA Y MÚSICA */
+const intro=document.getElementById("intro");
+const letter=document.getElementById("letter");
+const song=document.getElementById("song");
+const music=document.getElementById("music");
+
+const dedication="Hay algo en ti que hace que todo se sienta un poquito mejor. Tu presencia me da tranquilidad, tu sonrisa me alegra los días y tu forma de ser hace que cada momento contigo sea especial. No sé si alguna vez podré explicarte todo lo que significas para mí, pero quiero que nunca te falte un recordatorio de lo mucho que te quiero.";
+
+let typed=false;
+function typeText(){
+  if(typed)return;
+  typed=true;
+  const target=document.getElementById("typed");
+  let i=0;
+  function write(){
+    if(i<dedication.length){
+      target.textContent+=dedication.charAt(i++);
+      setTimeout(write,24);
+    }
+  }
+  write();
+}
+document.getElementById("begin").addEventListener("click",()=>{
+  intro.classList.add("hide");
+  letter.classList.add("show");
+  typeText();
+  createNameEffect();
+  song.play().then(()=>music.classList.add("playing")).catch(()=>{});
+});
+document.getElementById("back").addEventListener("click",()=>{
+  letter.classList.remove("show");
+  intro.classList.remove("hide");
+});
+document.getElementById("secretButton").addEventListener("click",()=>{
+  document.getElementById("surprise").classList.toggle("show");
+  createNameEffect();
+});
+music.addEventListener("click",()=>{
+  if(song.paused){
+    song.play().then(()=>music.classList.add("playing")).catch(()=>{});
+  }else{
+    song.pause();music.classList.remove("playing");
+  }
+});
+
+/* LUCIÉRNAGAS */
+const fx=document.getElementById("fx");
+for(let i=0;i<36;i++){
+  const el=document.createElement("div");
+  el.className="firefly";
+  el.style.left=rand(0,100)+"%";
+  el.style.top=rand(0,100)+"%";
+  el.style.setProperty("--duration",rand(3,9)+"s");
+  el.style.setProperty("--dx",rand(-65,65)+"px");
+  el.style.setProperty("--dy",rand(-65,65)+"px");
+  fx.appendChild(el);
+}
+
+/* MARIPOSAS */
+for(let i=0;i<5;i++){
+  const el=document.createElement("div");
+  el.className="butterfly";
+  el.textContent="🦋";
+  el.style.left=rand(5,85)+"%";
+  el.style.top=rand(10,80)+"%";
+  el.style.setProperty("--duration",rand(12,22)+"s");
+  el.style.animationDelay=-rand(0,12)+"s";
+  fx.appendChild(el);
+}
+
+/* CORAZONES Y FLORES */
+function floatingHeart(){
+  const el=document.createElement("div");
+  el.className="floating";
+  el.textContent=["♥","♡","❤","💕","✨"][Math.floor(rand(0,5))];
+  el.style.left=rand(0,100)+"%";
+  el.style.color=Math.random()>.5?"#ff668b":"#ffd3a0";
+  el.style.fontSize=rand(13,29)+"px";
+  el.style.setProperty("--duration",rand(9,17)+"s");
+  fx.appendChild(el);
+  setTimeout(()=>el.remove(),18000);
+}
+function fallingFlower(){
+  const el=document.createElement("div");
+  el.className="falling";
+  el.textContent=["🌹","🌸","🌺","🌷"][Math.floor(rand(0,4))];
+  el.style.left=rand(0,100)+"%";
+  el.style.fontSize=rand(17,27)+"px";
+  el.style.setProperty("--duration",rand(9,16)+"s");
+  fx.appendChild(el);
+  setTimeout(()=>el.remove(),17000);
+}
+setInterval(floatingHeart,850);
+setInterval(fallingFlower,2100);
+
+/* EXPLOSIÓN AL TOCAR */
+document.addEventListener("pointerdown",event=>{
+  if(event.target.closest("button")||event.target.closest(".letter"))return;
+  for(let i=0;i<13;i++){
+    const el=document.createElement("div");
+    el.className="tap-heart";
+    el.textContent=["❤️","💕","✨","💗"][i%4];
+    el.style.left=event.clientX+"px";
+    el.style.top=event.clientY+"px";
+    const angle=Math.PI*2*i/13;
+    const distance=45+Math.random()*70;
+    el.style.setProperty("--x",Math.cos(angle)*distance+"px");
+    el.style.setProperty("--y",Math.sin(angle)*distance+"px");
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1400);
+  }
 });
 </script>
 </body>
