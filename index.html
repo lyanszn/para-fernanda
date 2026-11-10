@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050207">
+<title>Para Fernanda ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#050207;color:white;
+ font-family:Georgia,serif;overflow-x:hidden;
+}
+canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main{
+ position:relative;z-index:1;min-height:100svh;
+ display:flex;align-items:center;justify-content:center;
+ padding:25px 16px;text-align:center;
+}
+.content{width:100%;max-width:480px}
+.small{color:#ff879d;letter-spacing:5px;font:11px Arial}
+h1{font-size:clamp(35px,10vw,55px);font-weight:normal;
+ color:#ff526e;text-shadow:0 0 25px #d00036;margin:18px 0}
+p{color:#e9cbd3;line-height:1.7}
+.flower{
+ width:230px;height:230px;max-width:80vw;
+ margin:12px auto 25px;filter:drop-shadow(0 0 15px #ff003f);
+}
+button{
+ background:linear-gradient(135deg,#a90034,#390018);
+ border:1px solid #ff6584;color:white;border-radius:30px;
+ padding:15px 25px;font-size:15px;cursor:pointer;
+ box-shadow:0 0 25px #90002d66;
+}
+button:active{transform:scale(.97)}
+.letter{
+ display:none;margin:25px auto 0;padding:24px 20px;
+ border:1px solid #a92c50;border-radius:18px;
+ background:#160711eF;box-shadow:0 0 30px #87002555;
+ animation:show 1s ease;
+}
+.letter.show{display:block}
+.letter h2{color:#ff829b;font-weight:normal}
+.letter p{font-size:17px}
+.music{display:inline-block;margin-top:12px;color:#ff9caf}
+@keyframes show{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+<main>
+<div class="content">
+ <div class="small">UN UNIVERSO PARA TI</div>
+ <h1>Fernanda ❤️</h1>
+ <p>Entre millones de estrellas, tú eres mi favorita.</p>
+
+ <canvas id="flower" class="flower" width="500" height="500"></canvas>
+
+ <button id="open">✉ Abrir mi sorpresa</button>
+
+ <section class="letter" id="letter">
+  <h2>Para mi amor ❤️</h2>
+  <p>
+   Mi amor, Fernanda...
+   <br><br>
+   Si pudiera recorrer todo el universo,
+   volvería a elegirte a ti en cada estrella,
+   en cada galaxia y en cada vida.
+   <br><br>
+   Llegaste a mi mundo para hacerlo más bonito.
+   Gracias por cada sonrisa, cada momento
+   y por ser esa persona tan especial.
+   <br><br>
+   No necesito tener el universo entero,
+   porque teniéndote a ti tengo mi mundo.
+   <br><br>
+   Te quiero muchísimo, mi amor. ❤️
+  </p>
+  <p style="color:#ff819a">Siempre tú. 🌹</p>
+  <a class="music" target="_blank"
+  href="https://www.youtube.com/results?search_query=Rio+Roma+Tu+me+cambiaste+la+vida+oficial">
+  🎵 Escuchar nuestra canción – Río Roma
+  </a>
+ </section>
+</div>
+</main>
+<script>
+// GALAXIA Y ESTRELLAS
+const sky=document.getElementById('sky');
+const s=sky.getContext('2d');
+let stars=[];
+function resize(){
+ sky.width=innerWidth*devicePixelRatio;
+ sky.height=innerHeight*devicePixelRatio;
+ stars=Array.from({length:180},()=>({
+ x:Math.random()*sky.width,y:Math.random()*sky.height,
+ r:Math.random()*1.7+.3,a:Math.random()*6
+ }));
+}
+resize();addEventListener('resize',resize);
+function galaxy(){
+ s.clearRect(0,0,sky.width,sky.height);
+ let g=s.createRadialGradient(
+ sky.width*.5,sky.height*.5,0,
+ sky.width*.5,sky.height*.5,sky.width*.65);
+ g.addColorStop(0,'#260817');
+ g.addColorStop(.45,'#100614');
+ g.addColorStop(1,'#050207');
+ s.fillStyle=g;s.fillRect(0,0,sky.width,sky.height);
+ stars.forEach(p=>{
+ p.a+=.025;
+ s.globalAlpha=.25+Math.abs(Math.sin(p.a))*.7;
+ s.fillStyle='#ffe5ec';
+ s.beginPath();s.arc(p.x,p.y,p.r*devicePixelRatio,0,Math.PI*2);s.fill();
+ });
+ s.globalAlpha=1;
+ requestAnimationFrame(galaxy);
+}
+galaxy();
+
+// FLOR ROJA FORMADA POR PARTÍCULAS
+const flower=document.getElementById('flower');
+const f=flower.getContext('2d');
+let particles=[];
+for(let i=0;i<1300;i++){
+ let a=Math.random()*Math.PI*2;
+ let petal=Math.floor(Math.random()*6);
+ let angle=a+petal*Math.PI/3;
+ let r=35+Math.random()*105;
+ let x=250+Math.cos(angle)*r*Math.cos(a);
+ let y=230+Math.sin(angle)*r*.85;
+ particles.push({x,y,phase:Math.random()*6});
+}
+function drawFlower(t){
+ f.clearRect(0,0,500,500);
+ particles.forEach((p,i)=>{
+ let pulse=Math.sin(t*.0015+p.phase)*2;
+ f.globalAlpha=.45+Math.abs(Math.sin(t*.002+p.phase))*.55;
+ f.fillStyle=i%5===0?'#ffbdc9':(i%3===0?'#ff164e':'#bd0036');
+ f.shadowBlur=10;f.shadowColor='#ff003f';
+ f.beginPath();
+ f.arc(p.x+pulse,p.y+pulse,1.1+(i%4)*.45,0,Math.PI*2);
+ f.fill();
+ });
+ f.globalAlpha=1;f.shadowBlur=0;
+ requestAnimationFrame(drawFlower);
+}
+requestAnimationFrame(drawFlower);
+
+// ABRIR LA CARTA
+document.getElementById('open').addEventListener('click',()=>{
+ document.getElementById('letter').classList.add('show');
+ document.getElementById('open').textContent='❤️ Mi amor, para ti ❤️';
+ document.getElementById('letter').scrollIntoView({behavior:'smooth',block:'center'});
+});
+</script>
+</body>
+</html>
